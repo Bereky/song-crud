@@ -2,7 +2,7 @@
 FROM node:18
 
 # working directory
-WORKDIR /app
+WORKDIR /src/app
 
 # Copy package.json and Install app dependencies
 COPY package*.json ./

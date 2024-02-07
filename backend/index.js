@@ -10,7 +10,7 @@ const PORT = process.env.PORT || 8400;
 const router = require("./router/song.routes.js");
 
 // Make connection to database
-connectToDB();
+//connectToDB();
 
 app.use(cors());
 app.use(express.json());
