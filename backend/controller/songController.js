@@ -1,32 +1,8 @@
 const asyncHandler = require("express-async-handler");
 const Song = require("../model/song");
 const { filterSongs } = require("../utils/filterSongs");
-
-//add song
-const addSong = asyncHandler(async (req, res) => {
-  const { title, artist, album, genre } = req.body;
-
-  const song = await Song.create({
-    title: title,
-    artist: artist,
-    album: album,
-    genre: genre,
-  });
-
-  if (song) {
-    const songs = await Song.find();
-
-    if (songs) {
-      const { artists, albums, genres } = filterSongs(songs);
-
-      res.status(201).json({ songs, artists, albums, genres });
-    } else {
-      res.status(500).json("Error occured while adding song");
-    }
-  } else {
-    res.status(500).json("Error occured while adding song");
-  }
-});
+const { validateSong, validateSongUpdate } = require("../validation/song");
+const { BadRequestError, ServerError } = require("../helpers/api-errors");
 
 //get song
 const getSong = asyncHandler(async (req, res) => {
@@ -41,34 +17,60 @@ const getSong = asyncHandler(async (req, res) => {
   }
 });
 
+//add song
+const addSong = asyncHandler(async (req, res) => {
+  const { error, value } = validateSong(req.body);
+
+  if (error) return res.status(400).json({ message: error?.message });
+
+  const song = await Song.create({
+    title: value.title,
+    artist: value.artist,
+    album: value.album,
+    genre: value.genre,
+  });
+
+  if (!song) throw new ServerError("Error occured");
+
+  const songs = await Song.find();
+
+  if (songs) {
+    const { artists, albums, genres } = filterSongs(songs);
+
+    res.status(201).json({ songs, artists, albums, genres });
+  } else {
+    res.status(500).json("Error occured while adding song");
+  }
+});
+
 //update song
 const updateSong = asyncHandler(async (req, res) => {
-  const { _id, title, artist, album, genre } = req.body;
+  const { error, value } = validateSongUpdate(req.body);
+
+  if (error) return res.status(400).json({ message: error?.message });
 
   console.log(req.body);
 
   const song = await Song.findOneAndUpdate(
-    { _id: _id },
+    { _id: value._id },
     {
       $set: {
-        title: title,
-        artist: artist,
-        album: album,
-        genre: genre,
+        title: value.title,
+        artist: value.artist,
+        album: value.album,
+        genre: value.genre,
       },
     }
   );
 
-  if (song) {
-    const songs = await Song.find();
+  if (!song) throw new BadRequestError("Song Not Found");
 
-    if (songs) {
-      const { artists, albums, genres } = filterSongs(songs);
+  const songs = await Song.find();
 
-      res.status(201).json({ songs, artists, albums, genres });
-    } else {
-      res.status(500).json("Error occured while updating song");
-    }
+  if (songs) {
+    const { artists, albums, genres } = filterSongs(songs);
+
+    res.status(201).json({ songs, artists, albums, genres });
   } else {
     res.status(500).json("Error occured while updating song");
   }
@@ -76,22 +78,22 @@ const updateSong = asyncHandler(async (req, res) => {
 
 //delete song
 const deleteSong = asyncHandler(async (req, res) => {
-  const { _id } = req.params;
+  const { error, value } = validateSongUpdate(req.params);
 
-  const song = await Song.findOneAndDelete({ _id: _id }, { new: true });
+  if (error) return res.status(400).json({ message: error?.message });
 
-  if (song) {
-    const songs = await Song.find();
+  const song = await Song.findOneAndDelete({ _id: value._id }, { new: true });
 
-    if (songs) {
-      const { artists, albums, genres } = filterSongs(songs);
+  if (!song) throw new BadRequestError("Song Not Found");
 
-      res.status(201).json({ songs, artists, albums, genres });
-    } else {
-      res.status(500).json("Error occured while updating song");
-    }
+  const songs = await Song.find();
+
+  if (songs) {
+    const { artists, albums, genres } = filterSongs(songs);
+
+    res.status(201).json({ songs, artists, albums, genres });
   } else {
-    res.status(500).json("Error occured while deleting song");
+    res.status(500).json("Error occured while updating song");
   }
 });
 

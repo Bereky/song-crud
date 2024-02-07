@@ -1,5 +1,6 @@
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
+import { addSongRequest } from "../../../app/songSlice";
 
 interface ChildProps {
   onClickCB: (value: boolean) => boolean;
@@ -14,8 +15,9 @@ const AddSongModal = ({ onClickCB }: ChildProps) => {
 
   const dispatch = useDispatch();
 
-  const onSubmit = (data: object) => {
-    dispatch({ type: "song/addSongPending", payload: data });
+  const onSubmit = (data: Object) => {
+    console.log(data);
+    dispatch({ type: addSongRequest.type, payload: { data } });
     onClickCB(false);
   };
 
@@ -60,6 +62,11 @@ const AddSongModal = ({ onClickCB }: ChildProps) => {
                     className="bg-zinc-800 border border-emerald-500 text-zinc-200 text-sm rounded-lg focus:ring-emerald-500 focus:border-emerald-500 block w-full p-2.5 "
                     {...register("artist", { required: true })}
                   />
+                  {errors.artist && (
+                    <p className="text-red-400 text-sm">
+                      * This field is required.
+                    </p>
+                  )}
                 </div>
                 <div className="mb-4">
                   <label className="block mb-2 text-sm  text-emerald-500 font-semibold">
@@ -71,6 +78,11 @@ const AddSongModal = ({ onClickCB }: ChildProps) => {
                     className="bg-zinc-800 border border-emerald-500 text-zinc-200 text-sm rounded-lg focus:ring-emerald-500 focus:border-emerald-500 block w-full p-2.5 "
                     {...register("album", { required: true })}
                   />
+                  {errors.album && (
+                    <p className="text-red-400 text-sm">
+                      * This field is required.
+                    </p>
+                  )}
                 </div>
                 <div className="mb-4">
                   <label className="block mb-2 text-sm  text-emerald-500 font-semibold">
@@ -91,6 +103,11 @@ const AddSongModal = ({ onClickCB }: ChildProps) => {
                     <option value="rock"> Rock </option>
                     <option value="house">House</option>
                   </select>
+                  {errors.genre && (
+                    <p className="text-red-400 text-sm">
+                      * This field is required.
+                    </p>
+                  )}
                 </div>
                 {/*footer*/}
                 <div className="flex items-center justify-end pt-3 border-t border-solid border-zinc-700 rounded-b">

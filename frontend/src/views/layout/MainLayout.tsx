@@ -8,7 +8,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { resetStatus } from "../../app/songSlice";
 
 const MainLayout = () => {
-  const { isLoading, isSuccess, isError, message } = useSelector(
+  const { isLoading, isSuccess, isError } = useSelector(
     (state: RootState) => state.song.status
   );
 

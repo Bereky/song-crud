@@ -46,7 +46,7 @@ export const songSlice = createSlice({
         (song: Song) => song._id === action.payload
       );
     },
-    fetchSongPending: (state) => {
+    fetchSongRequest: (state) => {
       state.status.isLoading = true;
     },
     fetchSongSuccess: (state, action) => {
@@ -57,14 +57,16 @@ export const songSlice = createSlice({
       state.status.isLoading = false;
       state.status.isError = false;
       state.status.isSuccess = false;
+      console.log(songs);
+
+      console.log(action.payload);
     },
     fetchSongFailure: (state) => {
       state.status.isError = true;
       state.status.isSuccess = false;
-      console.log("err");
     },
 
-    addSongPending: (state, action) => {
+    addSongRequest: (state) => {
       state.status.isLoading = true;
     },
     addSongSuccess: (state, action) => {
@@ -80,7 +82,7 @@ export const songSlice = createSlice({
       state.status.isError = true;
       state.status.isSuccess = false;
     },
-    updateSongPending: (state, action) => {
+    updateSongRequest: (state) => {
       state.status.isLoading = true;
     },
     updateSongSuccess: (state, action) => {
@@ -98,7 +100,7 @@ export const songSlice = createSlice({
       state.status.isError = true;
       state.status.isSuccess = false;
     },
-    deleteSongPending: (state, action) => {
+    deleteSongRequest: (state) => {
       state.status.isLoading = true;
     },
     deleteSongSuccess: (state, action) => {
@@ -119,18 +121,19 @@ export const songSlice = createSlice({
 
 export const {
   setSongForAction,
-  fetchSongPending,
+  fetchSongRequest,
   fetchSongSuccess,
   fetchSongFailure,
-  addSongPending,
+  addSongRequest,
   addSongSuccess,
   addSongFailure,
-  updateSongPending,
+  updateSongRequest,
   updateSongSuccess,
   updateSongFailure,
-  deleteSongPending,
+  deleteSongRequest,
   deleteSongSuccess,
   deleteSongFailure,
   resetStatus,
 } = songSlice.actions;
+
 export default songSlice.reducer;

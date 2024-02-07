@@ -17,7 +17,7 @@ const Albums = () => {
         {albums &&
           albums.map((data, index) => {
             return (
-              <tr>
+              <tr key={index}>
                 <td className="py-1 px-1 ">{index + 1}</td>
                 <td className="py-2 px-4 ">{data.album}</td>
                 <td className="py-2 px-4 ">{data.artist}</td>

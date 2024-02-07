@@ -1,5 +1,4 @@
 import axios from "axios";
-import { PayloadAction } from "@reduxjs/toolkit";
 
 const API_URL = "http://localhost:8400";
 
@@ -13,7 +12,7 @@ const getSongs = async () => {
   return response;
 };
 
-const addNewSong = async (song: Song) => {
+const addNewSong = async (song: NewSong) => {
   const response = await axios.post(API_URL + "/api/add-song", song);
 
   if (response.data) {

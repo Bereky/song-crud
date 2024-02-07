@@ -1,4 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
+import { deleteSongRequest } from "../../../app/songSlice";
 
 interface Song {
   _id: string;
@@ -29,12 +30,12 @@ const DeleteSongModal = ({ message, onClickCB }: ChildProps) => {
   const onDelete = () => {
     const songId = songForAction[0]._id;
 
-    dispatch({ type: "song/deleteSongPending", payload: songId });
+    dispatch({ type: deleteSongRequest.type, payload: { songId } });
   };
 
   return (
     <>
-      {message ? (
+      {message && songForAction && songForAction[0] ? (
         <>
           <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto absolute inset-0 z-50 outline-none focus:outline-none">
             <div className="relative w-auto my-6 mx-auto max-w-3xl">
@@ -53,16 +54,16 @@ const DeleteSongModal = ({ message, onClickCB }: ChildProps) => {
                   </p>
                 </div>
                 {/*footer*/}
-                <div className="flex items-center justify-end px-6 py-4 border-t border-solid border-zinc-700 rounded-b">
+                <div className="flex items-center justify-end px-6 py-4 border-t border-solid border-zinc-700 rounded-b gap-2">
                   <button
-                    className="text-emerald-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                    className="btn w-24 text-white bg-emerald-500 hover:bg-emerald-700 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 "
                     type="button"
                     onClick={onClickCB}
                   >
                     Cancel
                   </button>
                   <button
-                    className="btn w-24 text-white bg-red-500 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 "
+                    className="btn w-24 text-white bg-red-500 hover:bg-red-600 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 "
                     type="button"
                     onClick={onDelete}
                   >

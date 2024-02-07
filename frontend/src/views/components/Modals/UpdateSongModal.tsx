@@ -1,5 +1,6 @@
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
+import { updateSongRequest } from "../../../app/songSlice";
 
 interface ChildProps {
   message: boolean;
@@ -24,7 +25,7 @@ const UpdateSongModal = ({ message, onClickCB }: ChildProps) => {
       _id: songForAction[0]._id,
     };
 
-    dispatch({ type: "song/updateSongPending", payload: updatedSong });
+    dispatch({ type: updateSongRequest.type, payload: updatedSong });
     onClickCB();
     reset();
   };
@@ -79,6 +80,11 @@ const UpdateSongModal = ({ message, onClickCB }: ChildProps) => {
                         defaultValue={songForAction[0].artist}
                         {...register("artist", { required: true })}
                       />
+                      {errors.artist && (
+                        <p className="text-red-400 text-sm">
+                          * This field is required.
+                        </p>
+                      )}
                     </div>
                     <div className="mb-4">
                       <label className="block mb-2 text-sm  text-emerald-500 font-semibold">
@@ -91,6 +97,11 @@ const UpdateSongModal = ({ message, onClickCB }: ChildProps) => {
                         defaultValue={songForAction[0].album}
                         {...register("album", { required: true })}
                       />
+                      {errors.album && (
+                        <p className="text-red-400 text-sm">
+                          * This field is required.
+                        </p>
+                      )}
                     </div>
                     <div className="mb-4">
                       <label className="block mb-2 text-sm  text-emerald-500 font-semibold">
@@ -112,18 +123,23 @@ const UpdateSongModal = ({ message, onClickCB }: ChildProps) => {
                         <option value="rock"> Rock </option>
                         <option value="house">House</option>
                       </select>
+                      {errors.genre && (
+                        <p className="text-red-400 text-sm">
+                          * This field is required.
+                        </p>
+                      )}
                     </div>
                     {/*footer*/}
-                    <div className="flex items-center justify-end pt-3 border-t border-solid border-zinc-700 rounded-b">
+                    <div className="flex items-center justify-end pt-3 border-t border-solid border-zinc-700 rounded-b gap-2">
                       <button
-                        className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                        className="btn w-24 text-white bg-red-500 hover:bg-red-700 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 "
                         type="button"
                         onClick={cancelUpdateHandler}
                       >
                         Cancel
                       </button>
                       <button
-                        className="btn w-24 text-white bg-emerald-600 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 "
+                        className="btn w-24 text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 "
                         type="submit"
                         //onClick={onClickCB}
                       >

@@ -1,4 +1,6 @@
-import { call, put, takeEvery } from "redux-saga/effects";
+import { call, put } from "redux-saga/effects";
+import * as Eff from "redux-saga/effects";
+
 import api from "./apis";
 
 import {
@@ -10,7 +12,13 @@ import {
   updateSongSuccess,
   deleteSongFailure,
   deleteSongSuccess,
+  addSongRequest,
+  fetchSongRequest,
+  updateSongRequest,
+  deleteSongRequest,
 } from "./songSlice";
+
+const takeEvery: any = Eff.takeEvery;
 
 function* fetchSongs() {
   try {
@@ -23,10 +31,12 @@ function* fetchSongs() {
   }
 }
 
-function* addSong(action: { type: Object; payload: Song }) {
+function* addSong(action: { type: Object; payload: NewSong }) {
   try {
     const response: Response = yield call(api.addNewSong, action.payload);
-    yield put(addSongSuccess(response.data));
+    if (response) {
+      yield put(addSongSuccess(response.data));
+    }
   } catch (error) {
     yield put(addSongFailure());
   }
@@ -41,7 +51,7 @@ function* updateSong(action: { type: Object; payload: Song }) {
   }
 }
 
-function* deleteSong(action: { type: Object; payload: string }) {
+function* deleteSong(action: { payload: string }) {
   try {
     const response: Response = yield call(api.deleteMySong, action.payload);
     yield put(deleteSongSuccess(response.data));
@@ -51,10 +61,10 @@ function* deleteSong(action: { type: Object; payload: string }) {
 }
 
 function* songSaga() {
-  yield takeEvery("song/fetchSongPending", fetchSongs);
-  /*  yield takeEvery("song/addSongPending", addSong);
-  yield takeEvery("song/updateSongPending", updateSong);
-  yield takeEvery("song/deleteSongPending", deleteSong); */
+  yield takeEvery(fetchSongRequest.type, fetchSongs);
+  yield takeEvery(addSongRequest.type, addSong);
+  yield takeEvery(updateSongRequest.type, updateSong);
+  yield takeEvery(deleteSongRequest.type, deleteSong);
 }
 
 export default songSaga;

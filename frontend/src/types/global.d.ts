@@ -8,6 +8,20 @@ interface Song {
   album: string;
 }
 
+interface NewSong {
+  title: string;
+  artist: string;
+  genre: string;
+  album: string;
+}
+
+interface Songs {
+  songs: Song[];
+  artists: Artist[];
+  albums: Album[];
+  genres: Genre[];
+}
+
 interface Artist {
   artist: string;
   albums: string[];

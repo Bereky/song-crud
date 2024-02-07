@@ -24,8 +24,11 @@ const Songs = () => {
     setShowDeleteModal(true);
   };
 
-  const onClickHandler = () => {
+  const onClickHandlerUpdate = () => {
     setShowUpdateModal(false);
+  };
+
+  const onClickHandlerDelete = () => {
     setShowDeleteModal(false);
   };
 
@@ -46,8 +49,14 @@ const Songs = () => {
 
   return (
     <>
-      <UpdateSongModal message={showUpdateModal} onClickCB={onClickHandler} />
-      <DeleteSongModal message={showDeleteModal} onClickCB={onClickHandler} />
+      <UpdateSongModal
+        message={showUpdateModal}
+        onClickCB={onClickHandlerUpdate}
+      />
+      <DeleteSongModal
+        message={showDeleteModal}
+        onClickCB={onClickHandlerDelete}
+      />
 
       <table className="min-w-full bg-zin-800 border-none text-zinc-200">
         <thead>
@@ -64,7 +73,7 @@ const Songs = () => {
           {songs &&
             songs.map((song, index) => {
               return (
-                <tr>
+                <tr key={index}>
                   <td className="py-1 px-1 ">{(index += 1)}</td>
                   <td className="py-2 px-4 ">{song.title}</td>
                   <td className="py-2 px-4 ">{song.artist}</td>
