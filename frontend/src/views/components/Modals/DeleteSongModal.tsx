@@ -30,7 +30,7 @@ const DeleteSongModal = ({ message, onClickCB }: ChildProps) => {
   const onDelete = () => {
     const songId = songForAction[0]._id;
 
-    dispatch({ type: deleteSongRequest.type, payload: { songId } });
+    dispatch({ type: deleteSongRequest.type, payload: songId });
   };
 
   return (

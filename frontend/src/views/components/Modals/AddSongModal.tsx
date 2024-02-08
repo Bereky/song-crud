@@ -17,7 +17,7 @@ const AddSongModal = ({ onClickCB }: ChildProps) => {
 
   const onSubmit = (data: Object) => {
     console.log(data);
-    dispatch({ type: addSongRequest.type, payload: { data } });
+    dispatch({ type: addSongRequest.type, payload: data });
     onClickCB(false);
   };
 

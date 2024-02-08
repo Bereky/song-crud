@@ -3,12 +3,13 @@ import LeftSidebar from "../components/Sidebar/LeftSidebar";
 import RighSidebar from "../components/Sidebar/RightSidebar";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
+import { fetchSongRequest } from "../../app/songSlice";
 
 const Body = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch({ type: "song/fetchSongPending" });
+    dispatch({ type: fetchSongRequest.type });
   }, [dispatch]);
 
   return (
