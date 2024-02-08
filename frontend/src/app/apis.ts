@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:8400";
+const API_URL = "";
 
 const getSongs = async () => {
   const response = await axios.get(API_URL + "/api/get-song");
